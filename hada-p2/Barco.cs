@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,6 +24,23 @@ namespace Hada
             this.longitud = longitud;
             this.orientación = orientación;
             this.coordenadaInicio = coordenadaInicio;
+
+            CoordenadasBarco = new Dictionary<Coordenada, string>();
+            Nombre = nombre;
+            NumDanyos = 0;
+
+            for (int i = 0; i < longitud; i++)
+            {
+                if (orientación == 'h')
+                {
+                    CoordenadasBarco[Coordenada(coordenadaInicio.fila() + i, coordenadaInicio.columna())] = nombre;
+                }
+
+                else if (orientación == 'v')
+                {
+                    CoordenadasBarco[Coordenada(coordenadaInicio.fila(), coordenadaInicio.columna() + i)] = nombre;
+                }
+            }
         }
     }
 }
