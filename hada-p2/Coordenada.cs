@@ -8,37 +8,41 @@ namespace Hada
 {
     internal class Coordenada
     {
-        private int fila;
-        private int columna;
-
         public int Fila { get; set; }
         public int Columna { get; set; }
 
         public Coordenada()
         {
-            this.fila = 0;
-            this.columna = 0;
+            this.Fila = 0;
+            this.Columna = 0;
         }
         public Coordenada(int fila, int columna)
         {
-            this.fila = fila;
-            this.columna = columna;
+            this.Fila = fila;
+            this.Columna = columna;
         }
         public Coordenada(string fila, string columna)
         {
-            this.fila = int.Parse(fila);
-            this.columna = int.Parse(columna);
+            int i;
+            if ((int.TryParse(fila, out i)) && (int.TryParse(columna, out i)))
+            {
+                this.Fila = int.Parse(fila);
+                this.Columna = int.Parse(columna);
+            } else
+            {
+                Console.WriteLine("Not nums");
+            }
         }
 
         public Coordenada(Coordenada c)
         {
-            this.fila = c.Fila;
-            this.columna = c.Columna;
+            this.Fila = c.Fila;
+            this.Columna = c.Columna;
         }
 
         public override string ToString()
         {
-            return "(" + this.fila + "," + this.columna + ")";
+            return "(" + this.Fila + "," + this.Columna + ")";
         }
 
         public override int GetHashCode()
@@ -48,7 +52,7 @@ namespace Hada
 
         public override bool Equals(object obj)
         {
-            if (obj is Coordenada c)
+            if (obj is Coordenada c && obj != null)
             {
                 return (this.Fila == c.Fila && this.Columna == c.Columna);
             } else
