@@ -18,6 +18,11 @@ namespace Hada
         public string Nombre;
         public int NumDanyos;
 
+        private bool _tocado;
+
+        public event EventHandler<TocadoArgs> eventoTocado;
+        public event EventHandler<HundidoArgs> eventoHundido;
+
         public Barco(string nombre, int longitud, char orientación, Coordenada coordenadaInicio)
         {
             this.nombre = nombre;
@@ -33,14 +38,54 @@ namespace Hada
             {
                 if (orientación == 'h')
                 {
-                    CoordenadasBarco[Coordenada(coordenadaInicio.fila() + i, coordenadaInicio.columna())] = nombre;
+                    CoordenadasBarco[new Coordenada(coordenadaInicio.Fila + i, coordenadaInicio.Columna)] = nombre;
                 }
 
                 else if (orientación == 'v')
                 {
-                    CoordenadasBarco[Coordenada(coordenadaInicio.fila(), coordenadaInicio.columna() + i)] = nombre;
+                    CoordenadasBarco[new Coordenada(coordenadaInicio.Fila, coordenadaInicio.Columna + i)] = nombre;
                 }
             }
+        }
+
+        public void Disparo(Coordenada c)
+        {
+           for (int i = 0;i < longitud;i++)
+           {
+                if (CoordenadasBarco.ContainsKey(c))
+                {
+                    CoordenadasBarco[c] = nombre + "_T";
+                    NumDanyos++;
+
+                   //ADD EVENTO TOCADO
+                   //ADD EVENTO HUNDIDO IF ES EL CASO
+                }
+           }
+        }
+
+        public bool hundido()
+        {
+            if (CoordenadasBarco.ContainsValue(nombre))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public string ToString()
+        {
+            string text = "[" + nombre + "] - DAÑOS: [" + NumDanyos + "] - HUNDIDO: [" + hundido() +
+                "] - COORDENADAS:";
+
+            List<KeyValuePair<Coordenada, string>> lista = new List<KeyValuePair<Coordenada, string>>(CoordenadasBarco);
+
+            for (int i = 0; i < lista.Count; i++)
+            {
+                text += " [" + lista[i].Key + " :" + lista[i].Value + "]";
+            }
+
+            return text;
         }
     }
 }
