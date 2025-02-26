@@ -9,11 +9,6 @@ namespace Hada
 {
     internal class Barco
     {
-        private string nombre;
-        private int longitud;
-        private char orientación;
-        private Coordenada coordenadaInicio;
-
         public Dictionary<Coordenada, String> CoordenadasBarco;
         public string Nombre;
         public int NumDanyos;
@@ -25,11 +20,6 @@ namespace Hada
 
         public Barco(string nombre, int longitud, char orientación, Coordenada coordenadaInicio)
         {
-            this.nombre = nombre;
-            this.longitud = longitud;
-            this.orientación = orientación;
-            this.coordenadaInicio = coordenadaInicio;
-
             CoordenadasBarco = new Dictionary<Coordenada, string>();
             Nombre = nombre;
             NumDanyos = 0;
@@ -50,11 +40,11 @@ namespace Hada
 
         public void Disparo(Coordenada c)
         {
-           for (int i = 0;i < longitud;i++)
+           for (int i = 0;i < CoordenadasBarco.Count;i++)
            {
                 if (CoordenadasBarco.ContainsKey(c))
                 {
-                    CoordenadasBarco[c] = nombre + "_T";
+                    CoordenadasBarco[c] = Nombre + "_T";
                     NumDanyos++;
 
                    //ADD EVENTO TOCADO
@@ -65,7 +55,7 @@ namespace Hada
 
         public bool hundido()
         {
-            if (CoordenadasBarco.ContainsValue(nombre))
+            if (CoordenadasBarco.ContainsValue(Nombre))
             {
                 return false;
             }
@@ -73,9 +63,9 @@ namespace Hada
             return true;
         }
 
-        public string ToString()
+        public override string ToString()
         {
-            string text = "[" + nombre + "] - DAÑOS: [" + NumDanyos + "] - HUNDIDO: [" + hundido() +
+            string text = "[" + Nombre + "] - DAÑOS: [" + NumDanyos + "] - HUNDIDO: [" + hundido() +
                 "] - COORDENADAS:";
 
             List<KeyValuePair<Coordenada, string>> lista = new List<KeyValuePair<Coordenada, string>>(CoordenadasBarco);
