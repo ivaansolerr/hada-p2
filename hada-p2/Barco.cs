@@ -47,8 +47,13 @@ namespace Hada
                     CoordenadasBarco[c] = Nombre + "_T";
                     NumDanyos++;
 
-                   //ADD EVENTO TOCADO
-                   //ADD EVENTO HUNDIDO IF ES EL CASO
+                    //ADD EVENTO TOCADO, idk if Invoke is mandatory
+                    eventoTocado.Invoke(this,new TocadoArgs(CoordenadasBarco[c], c));
+
+                    //ADD EVENTO HUNDIDO IF ES EL CASO
+                    if (this.hundido()) { 
+                        eventoHundido.Invoke(this,new HundidoArgs(CoordenadasBarco[c]));
+                    }
                 }
            }
         }

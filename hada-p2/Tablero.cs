@@ -29,18 +29,69 @@ namespace Hada
 
         private Dictionary<Coordenada, string> casillasTablero { get; set; }
 
+        public event EventHandler<EventArgs> eventoFinPartida;
+
         public Tablero(int TamTablero, List<Barco> barcos)
         {
             this.TamTablero= TamTablero;
-            for (int i = 0; i < barcos.Count; i++)
+            this.barcos.set(barcos);
+
+            for (int i = 0; i < this.barcos.Count; i++)
             {
-                // initialize touch and sink events,
+                this.barcos[i].eventoTocado += cuandoEventoTocado;
+                this.barcos[i].eventoHundido += cuandoEventoHundido;
             }
         }
 
         private void inicializaCasillasTablero()
         {
-            // classify the squares of the board
+            for (int i = 0; i < this.TamTablero; i++)
+            {
+                for (int j = 0; j < this.TamTablero; j++)
+                {
+                    // classify Casillas
+                }
+            }
+        }
+
+        public Disparar(Coordenada c)
+        {
+
+        }
+
+        public string DibujarTablero()
+        {
+
+        }
+
+        public string ToString()
+        {
+
+        }
+
+        public void cuandoEventoTocado()
+        {
+            Console.WriteLine("fsdfls");
+        }
+
+        public void cuandoEventoHundido()
+        {
+            Console.WriteLine("fdsf");
+            bool allSunk = true;
+            
+            for (int i = 0; (i < this.barcosEliminados.Count) && allSunk; i++)
+            {
+                // idk if the comparion is ok
+                if (this.barcos[i] != this.barcosEliminados[i])
+                {
+                    allSunk = false;
+                }
+            }
+
+            if (allSunk)
+            {
+                eventoFinPartida.Invoke(this, EventArgs.Empty);
+            }
         }
 
     }

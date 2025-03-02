@@ -7,7 +7,7 @@ using Hada;
 
 namespace Hada
 {
-    internal class TocadoArgs
+    internal class TocadoArgs : EventArgs
     {
         private string nombre;
         private Coordenada coordenadaImpacto;
@@ -19,7 +19,7 @@ namespace Hada
         }
     }
 
-    internal class HundidoArgs
+    internal class HundidoArgs : EventArgs
     {
         private string nombre;
 
