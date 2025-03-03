@@ -13,8 +13,6 @@ namespace Hada
         public string Nombre;
         public int NumDanyos;
 
-        private bool _tocado;
-
         public event EventHandler<TocadoArgs> eventoTocado;
         public event EventHandler<HundidoArgs> eventoHundido;
 
