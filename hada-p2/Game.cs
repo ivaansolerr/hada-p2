@@ -26,7 +26,7 @@ namespace Hada
 
             String input = null;
 
-            while(!finPartida && input != 's' && input != 'S')
+            while(!finPartida && string.Equals(input, "s") && string.Equals(input, "S"))
             {
                 do
                 {
