@@ -11,7 +11,7 @@ namespace Hada
         private int _TamTablero;
         public int TamTablero {
             get { return _TamTablero; }
-            set { 
+            set {
                 if (value >= 4 && value <= 9)
                 {
                     _TamTablero = value;
@@ -35,14 +35,18 @@ namespace Hada
         public Tablero(int TamTablero, List<Barco> barcos)
         {
             casillasTablero = new Dictionary<Coordenada, string>();
-            this.TamTablero= TamTablero;
+            barcosEliminados = new List<Barco>();
+            coordenadasDisparadas = new List<Coordenada>();
+            coordenadasTocadas = new List<Coordenada>();
+            this.TamTablero = TamTablero;
             this.barcos = barcos;
 
-            //for (int i = 0; i < this.barcos.Count; i++)
-            //{
-            //    this.barcos[i].eventoTocado += cuandoEventoTocado;
-            //    this.barcos[i].eventoHundido += cuandoEventoHundido;
-            //}
+            for (int i = 0; i < this.barcos.Count; i++)
+            {
+                this.barcos[i].eventoTocado += cuandoEventoTocado;
+                this.barcos[i].eventoHundido += cuandoEventoHundido;
+            }
+            this.inicializaCasillasTablero();
         }
 
         private void inicializaCasillasTablero()
@@ -62,18 +66,25 @@ namespace Hada
                         }
                     }
                 }
-                
+
             }
         }
 
         public void Disparar(Coordenada c)
         {
-            if(c.Fila > this.TamTablero || c.Columna > this.TamTablero
-                || c.Fila < 4 || c.Columna > 4)
+            if (c.Fila > this.TamTablero || c.Columna > this.TamTablero
+                || c.Fila < 0 || c.Columna < 0)
             {
                 Console.WriteLine("The coordinate (" + c.Fila +
                     "," + c.Columna + ") is outside the dimensions of" +
                     "the board");
+            } else
+            {
+                this.coordenadasDisparadas.Add(c);
+                for (int i = 0; i < this.barcos.Count; i++)
+                {
+                    this.barcos[i].Disparo(c);
+                }
             }
         }
 
@@ -100,23 +111,42 @@ namespace Hada
 
         public override string ToString()
         {
-            this.inicializaCasillasTablero();
             return this.DibujarTablero();
         }
 
-        public void cuandoEventoTocado()
+        public void cuandoEventoTocado(object sender, TocadoArgs e)
         {
-            Console.WriteLine("fsdfls");
+            if (sender is Barco b && sender != null)
+            {
+                casillasTablero[e.coordenadaImpacto] = e.nombre;
+                Console.WriteLine("TABLERO: Barco [" + b.Nombre +
+                    "] tocado en Coordenada: [" + e.coordenadaImpacto.ToString()
+                    + "]");
+                this.coordenadasTocadas.Add(e.coordenadaImpacto);
+            }
+            else
+            {
+                return;
+            }
         }
 
-        public void cuandoEventoHundido()
+        public void cuandoEventoHundido(object sender, HundidoArgs e)
         {
-            Console.WriteLine("fdsf");
+            if (sender is Barco b && sender != null)
+            {
+                this.barcosEliminados.Add(b);
+            }
+            else
+            {
+                return;
+            }
+
+            Console.WriteLine("TABLERO: Barco [" + b.Nombre + "]" +
+                " hundido!!");
             bool allSunk = true;
-            
+
             for (int i = 0; (i < this.barcosEliminados.Count) && allSunk; i++)
             {
-                // idk if the comparion is ok
                 if (this.barcos[i] != this.barcosEliminados[i])
                 {
                     allSunk = false;
@@ -128,6 +158,5 @@ namespace Hada
                 eventoFinPartida.Invoke(this, EventArgs.Empty);
             }
         }
-
     }
 }

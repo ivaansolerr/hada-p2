@@ -9,8 +9,9 @@ namespace Hada
 {
     internal class TocadoArgs : EventArgs
     {
-        private string nombre;
-        private Coordenada coordenadaImpacto;
+        public string nombre { set; get; }
+
+        public Coordenada coordenadaImpacto { set; get; }
 
         public TocadoArgs(string nombre, Coordenada coordenadaImpacto)
         {
@@ -21,7 +22,7 @@ namespace Hada
 
     internal class HundidoArgs : EventArgs
     {
-        private string nombre;
+        public string nombre;
 
         public HundidoArgs(string nombre)
         {
