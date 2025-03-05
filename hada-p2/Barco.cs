@@ -26,12 +26,12 @@ namespace Hada
             {
                 if (orientación == 'h')
                 {
-                    CoordenadasBarco[new Coordenada(coordenadaInicio.Fila + i, coordenadaInicio.Columna)] = nombre;
+                    CoordenadasBarco[new Coordenada(coordenadaInicio.Fila, coordenadaInicio.Columna + i)] = nombre;
                 }
 
                 else if (orientación == 'v')
                 {
-                    CoordenadasBarco[new Coordenada(coordenadaInicio.Fila, coordenadaInicio.Columna + i)] = nombre;
+                    CoordenadasBarco[new Coordenada(coordenadaInicio.Fila + i, coordenadaInicio.Columna)] = nombre;
                 }
             }
         }
